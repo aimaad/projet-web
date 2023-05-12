@@ -4,32 +4,32 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// Récupérer tous les utilisateurs avec pagination
+// Récupérer tous les articles avec pagination
 router.get('/', async (req, res) => {
   try {
     const { take, skip } = req.query;
-    const users = await prisma.user.findMany({
+    const articles = await prisma.article.findMany({
       take: parseInt(take),
       skip: parseInt(skip),
     });
-    res.json(users);
+    res.json(articles);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Récupérer un utilisateur par son ID
+// Récupérer un article par son ID
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await prisma.user.findUnique({
+    const article = await prisma.article.findUnique({
       where: { id: parseInt(id) },
     });
-    if (user) {
-      res.json(user);
+    if (article) {
+      res.json(article);
     } else {
-      res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'Article not found' });
     }
   } catch (error) {
     console.error(error);
@@ -37,53 +37,57 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Ajouter un nouvel utilisateur
+// Ajouter un nouvel article
 router.post('/', async (req, res) => {
   try {
-    const { nom, email, password, role } = req.body;
-    const user = await prisma.user.create({
+    const { titre, contenu, image, createdAt, updatedAt, published } = req.body;
+    const article = await prisma.article.create({
       data: {
-        nom,
-        email,
-        password,
-        role,
+        titre,
+        contenu,
+        image,
+        createdAt,
+        updatedAt,
+        published,
       },
     });
-    res.json(user);
+    res.json(article);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Mettre à jour un utilisateur par son ID
+// Mettre à jour un article par son ID
 router.patch('/', async (req, res) => {
   try {
-    const { id, nom, email, password, role } = req.body;
-    const updatedUser = await prisma.user.update({
+    const { id, titre, contenu, image, createdAt, updatedAt, published } = req.body;
+    const updatedArticle = await prisma.article.update({
       where: { id: parseInt(id) },
       data: {
-        nom,
-        email,
-        password,
-        role,
+        titre,
+        contenu,
+        image,
+        createdAt,
+        updatedAt,
+        published,
       },
     });
-    res.json(updatedUser);
+    res.json(updatedArticle);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Supprimer un utilisateur par son ID
+// Supprimer un article par son ID
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.user.delete({
+    await prisma.article.delete({
       where: { id: parseInt(id) },
     });
-    res.json({ message: 'User deleted successfully' });
+    res.json({ message: 'Article deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });

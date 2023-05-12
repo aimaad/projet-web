@@ -4,32 +4,32 @@ const { PrismaClient } = require('@prisma/client');
 
 const prisma = new PrismaClient();
 
-// Récupérer tous les utilisateurs avec pagination
+// Récupérer tous les commentaires avec pagination
 router.get('/', async (req, res) => {
   try {
     const { take, skip } = req.query;
-    const users = await prisma.user.findMany({
+    const commentaires = await prisma.commentaire.findMany({
       take: parseInt(take),
       skip: parseInt(skip),
     });
-    res.json(users);
+    res.json(commentaires);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Récupérer un utilisateur par son ID
+// Récupérer un commentaire par son ID
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await prisma.user.findUnique({
+    const commentaire = await prisma.commentaire.findUnique({
       where: { id: parseInt(id) },
     });
-    if (user) {
-      res.json(user);
+    if (commentaire) {
+      res.json(commentaire);
     } else {
-      res.status(404).json({ error: 'User not found' });
+      res.status(404).json({ error: 'Comment not found' });
     }
   } catch (error) {
     console.error(error);
@@ -37,53 +37,49 @@ router.get('/:id', async (req, res) => {
   }
 });
 
-// Ajouter un nouvel utilisateur
+// Ajouter un nouveau commentaire
 router.post('/', async (req, res) => {
   try {
-    const { nom, email, password, role } = req.body;
-    const user = await prisma.user.create({
+    const { email, contenu } = req.body;
+    const commentaire = await prisma.commentaire.create({
       data: {
-        nom,
         email,
-        password,
-        role,
+        contenu,
       },
     });
-    res.json(user);
+    res.json(commentaire);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Mettre à jour un utilisateur par son ID
+// Mettre à jour un commentaire par son ID
 router.patch('/', async (req, res) => {
   try {
-    const { id, nom, email, password, role } = req.body;
-    const updatedUser = await prisma.user.update({
+    const { id, email, contenu } = req.body;
+    const updatedCommentaire = await prisma.commentaire.update({
       where: { id: parseInt(id) },
       data: {
-        nom,
         email,
-        password,
-        role,
+        contenu,
       },
     });
-    res.json(updatedUser);
+    res.json(updatedCommentaire);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
 
-// Supprimer un utilisateur par son ID
+// Supprimer un commentaire par son ID
 router.delete('/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.user.delete({
+    await prisma.commentaire.delete({
       where: { id: parseInt(id) },
     });
-    res.json({ message: 'User deleted successfully' });
+    res.json({ message: 'Comment deleted successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal server error' });
