@@ -1,0 +1,55 @@
+//ajouter un article
+
+POST http://localhost:3001/ajoutarticle
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+{
+  "titre": "astronomie",
+   "contenu":"test test test test test test test test",
+   "image": "http://placeimg.com/640/480",
+   "createdAt":"2023-05-19T18:06:04.126Z",
+    "updatedAt":"2023-05-19T18:06:04.126Z",
+    "published": true
+}
+// Récupérer tous les articles avec pagination
+
+POST http://localhost:3001/pagination
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+{
+  "page": 1,
+  "limit": 30
+}
+
+// Récupérer un article par son ID
+
+GET http://localhost:3001/articles/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+
+// Mettre à jour un article par son ID
+
+PATCH http://localhost:3001/updatearticle
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+{
+  "id": 1,
+  "titre": "new title",
+  "contenu": "imad test update ",
+  "image": "http://placeimg.com/640/480",
+  "createdAt": "2023-05-20T10:00:00Z",
+  "updatedAt": "2023-05-20T10:30:00Z",
+  "published": true
+}
+
+
+ 
+//supprimer article par son id 
+
+DELETE http://localhost:3001/deletearticle/2
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM

@@ -1,15 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
-
+const { authenticateToken } = require('../middlewares/auth.js');
 const prisma = new PrismaClient();
 
 // Récupérer tous les articles avec pagination
-router.get('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
-    const { take, skip } = req.query;
+    const { page, limit } = req.body;
+    const skip = (page - 1) * limit;
     const articles = await prisma.article.findMany({
-      take: parseInt(take),
+      take: parseInt(limit),
       skip: parseInt(skip),
     });
     res.json(articles);
@@ -20,7 +21,7 @@ router.get('/', async (req, res) => {
 });
 
 // Récupérer un article par son ID
-router.get('/:id', async (req, res) => {
+router.get('/:id',authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const article = await prisma.article.findUnique({
@@ -38,10 +39,11 @@ router.get('/:id', async (req, res) => {
 });
 
 // Ajouter un nouvel article
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken,async (req, res) => {
   try {
     const { titre, contenu, image, createdAt, updatedAt, published } = req.body;
-    const article = await prisma.article.create({
+    const userId = req.user.id; // Supposons que l'ID de l'utilisateur soit accessible via req.user.id
+    const article = await prisma.Article.create({
       data: {
         titre,
         contenu,
@@ -49,6 +51,8 @@ router.post('/', async (req, res) => {
         createdAt,
         updatedAt,
         published,
+        auteur: { connect: { id: userId } } // Spécifie l'ID de l'utilisateur pour l'auteur de l'article
+
       },
     });
     res.json(article);
@@ -59,12 +63,13 @@ router.post('/', async (req, res) => {
 });
 
 // Mettre à jour un article par son ID
-router.patch('/', async (req, res) => {
+router.patch('/', authenticateToken,async (req, res) => {
   try {
     const { id, titre, contenu, image, createdAt, updatedAt, published } = req.body;
     const updatedArticle = await prisma.article.update({
       where: { id: parseInt(id) },
       data: {
+        id,
         titre,
         contenu,
         image,
@@ -81,7 +86,7 @@ router.patch('/', async (req, res) => {
 });
 
 // Supprimer un article par son ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.article.delete({
@@ -93,5 +98,6 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 });
+
 
 module.exports = router;

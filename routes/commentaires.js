@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
-
+const { authenticateToken } = require('../middlewares/auth.js');
 const prisma = new PrismaClient();
 
 // Récupérer tous les commentaires avec pagination
-router.get('/', async (req, res) => {
+router.get('/',authenticateToken, async (req, res) => {
   try {
     const { take, skip } = req.query;
     const commentaires = await prisma.commentaire.findMany({
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 // Récupérer un commentaire par son ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticateToken,async (req, res) => {
   try {
     const { id } = req.params;
     const commentaire = await prisma.commentaire.findUnique({
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Ajouter un nouveau commentaire
-router.post('/', async (req, res) => {
+router.post('/',authenticateToken, async (req, res) => {
   try {
     const { email, contenu } = req.body;
     const commentaire = await prisma.commentaire.create({
@@ -55,12 +55,14 @@ router.post('/', async (req, res) => {
 });
 
 // Mettre à jour un commentaire par son ID
-router.patch('/', async (req, res) => {
+router.patch('/',authenticateToken, async (req, res) => {
   try {
-    const { id, email, contenu } = req.body;
+    
+    const { id,email, contenu } = req.body;
     const updatedCommentaire = await prisma.commentaire.update({
       where: { id: parseInt(id) },
       data: {
+        id,
         email,
         contenu,
       },
@@ -73,7 +75,7 @@ router.patch('/', async (req, res) => {
 });
 
 // Supprimer un commentaire par son ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     await prisma.commentaire.delete({

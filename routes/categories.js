@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
-
+const { authenticateToken, isAdmin } = require('../middlewares/auth.js'); // Ajout de la fonction isAdmin pour vérifier l'autorisation
 const prisma = new PrismaClient();
 
 // Récupérer toutes les catégories avec pagination
-router.get('/', async (req, res) => {
+router.get('/', authenticateToken, async (req, res) => {
   try {
     const { take, skip } = req.query;
     const categories = await prisma.categorie.findMany({
@@ -20,7 +20,7 @@ router.get('/', async (req, res) => {
 });
 
 // Récupérer une catégorie par son ID
-router.get('/:id', async (req, res) => {
+router.get('/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const categorie = await prisma.categorie.findUnique({
@@ -38,7 +38,7 @@ router.get('/:id', async (req, res) => {
 });
 
 // Ajouter une nouvelle catégorie
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, isAdmin, async (req, res) => { // Ajout de la vérification de l'autorisation isAdmin
   try {
     const { nom } = req.body;
     const categorie = await prisma.categorie.create({
@@ -54,12 +54,14 @@ router.post('/', async (req, res) => {
 });
 
 // Mettre à jour une catégorie par son ID
-router.patch('/', async (req, res) => {
+router.patch('/', authenticateToken, isAdmin, async (req, res) => { // Ajout de la vérification de l'autorisation isAdmin
   try {
-    const { id, nom } = req.body;
+    
+    const { id,nom } = req.body;
     const updatedCategorie = await prisma.categorie.update({
       where: { id: parseInt(id) },
       data: {
+        id,
         nom,
       },
     });
@@ -71,7 +73,7 @@ router.patch('/', async (req, res) => {
 });
 
 // Supprimer une catégorie par son ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', authenticateToken, isAdmin, async (req, res) => { // Ajout de la vérification de l'autorisation isAdmin
   try {
     const { id } = req.params;
     await prisma.categorie.delete({

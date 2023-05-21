@@ -1,14 +1,14 @@
 const express = require('express');
 const router = express.Router();
 const { PrismaClient } = require('@prisma/client');
-
+const { authenticateToken, isAdmin } = require('../middlewares/auth.js');
 const prisma = new PrismaClient();
 
 // Récupérer tous les utilisateurs avec pagination
-router.get('/', async (req, res) => {
+router.get('/',authenticateToken,isAdmin ,async (req, res) => {
   try {
     const { take, skip } = req.query;
-    const users = await prisma.user.findMany({
+    const users = await prisma.utilisateur.findMany({
       take: parseInt(take),
       skip: parseInt(skip),
     });
@@ -20,10 +20,10 @@ router.get('/', async (req, res) => {
 });
 
 // Récupérer un utilisateur par son ID
-router.get('/:id', async (req, res) => {
+router.get('/:id',authenticateToken,isAdmin, async (req, res) => {
   try {
     const { id } = req.params;
-    const user = await prisma.user.findUnique({
+    const user = await prisma.utilisateur.findUnique({
       where: { id: parseInt(id) },
     });
     if (user) {
@@ -38,10 +38,10 @@ router.get('/:id', async (req, res) => {
 });
 
 // Ajouter un nouvel utilisateur
-router.post('/', async (req, res) => {
+router.post('/',authenticateToken,isAdmin, async (req, res) => {
   try {
     const { nom, email, password, role } = req.body;
-    const user = await prisma.user.create({
+    const user = await prisma.utilisateur.create({
       data: {
         nom,
         email,
@@ -57,12 +57,13 @@ router.post('/', async (req, res) => {
 });
 
 // Mettre à jour un utilisateur par son ID
-router.patch('/', async (req, res) => {
+router.patch('/',authenticateToken, isAdmin,async (req, res) => {
   try {
     const { id, nom, email, password, role } = req.body;
-    const updatedUser = await prisma.user.update({
+    const updatedUser = await prisma.utilisateur.update({
       where: { id: parseInt(id) },
       data: {
+        id,
         nom,
         email,
         password,
@@ -77,10 +78,10 @@ router.patch('/', async (req, res) => {
 });
 
 // Supprimer un utilisateur par son ID
-router.delete('/:id', async (req, res) => {
+router.delete('/:id',isAdmin, authenticateToken,async (req, res) => {
   try {
     const { id } = req.params;
-    await prisma.user.delete({
+    await prisma.utilisateur.delete({
       where: { id: parseInt(id) },
     });
     res.json({ message: 'User deleted successfully' });

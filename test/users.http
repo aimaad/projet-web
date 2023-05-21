@@ -1,0 +1,25 @@
+// Récupérer tous les utilisateurs avec pagination
+
+GET http://localhost:3001/pagusers?take=20&skip=0
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+
+// Récupérer un utilisateur par son ID
+
+
+GET http://localhost:3001/userid/1
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+//mettre a jour utilisateur par son id
+
+PATCH http://localhost:3001/majuser
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOSwibm9tIjoiaW1hZHN1cGVyYWRtaW4iLCJlbWFpbCI6ImltYWRhaW1hZDQwM0BnbWFpbC5jb20iLCJwYXNzd29yZCI6IiQyYiQxMCRuZ2FOSTgzRDVjYy54VUpMNGdrWTQuLkFPTmpTMXY5cWo2bU1oWTl1NnAwNlBhazFVeVlnVyIsInJvbGUiOiJBRE1JTiJ9LCJpYXQiOjE2ODQ2MTIzNzcsImV4cCI6MTY4NTg5Mzk3N30.C_7PFmAwwI5jfxrQ-DmAjgtnx3AQSrg0PFytqMc4MpM
+
+{
+  "id": 19,
+  "nom": "imadtest",
+  "email": "imadaimad403test@gmail.com",
+  "password":"EliteBook2002",
+   "role" :"ADMIN"
+
+}
