@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+.background {
+    @apply bg-white;
+}
+
+.btn {
+    @apply px-3 py-1.5 rounded-md flex items-center space-x-2;
+}
+
+.primary-btn {
+    @apply bg-teal-500 btn text-white shadow-sm shadow-teal-200 flex items-center justify-center;
+}
+
+.secondary-btn {
+    @apply bg-teal-100 btn text-teal-500;
+}
+
+.dark-btn {
+    @apply bg-slate-100 btn text-slate-500;
+}
+
+.danger-btn {
+    @apply btn bg-red-500 text-slate-500 shadow-red-500;
+}
+
+.danger-btn {
+    @apply btn bg-red-100 text-red-500;
+}

@@ -1,0 +1,10 @@
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+  "nom": "iii",
+  "email": "imadaimad409@gmail.com",
+  "password": "EliteBook2002",
+  "role": "ADMIN"
+}
+

@@ -1,0 +1,8 @@
+//ajouter une categorie 
+POST http://localhost:3000/categories
+Content-Type: application/json
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxOCwibm9tIjoibG9ibmEiLCJlbWFpbCI6ImxvYm5hQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJiJDEwJFpCTGE1N3VqcXBxaEQ4SmlKQ2VCOU9pRWFyaWI3SEN5Uno5WlMybUcub2ZSR2xmSlV4N24uIiwicm9sZSI6IkFVVEhPUiJ9LCJpYXQiOjE2ODQ1NDc2MzIsImV4cCI6MTY4NDU1MTIzMn0.GfXxYyT-jtO-Vq-nJJFwkNnp13KVeYf7eorGgzMlY9o
+
+{
+  "nom": "Nouvelle catégorie"
+}
